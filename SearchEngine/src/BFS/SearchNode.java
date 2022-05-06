@@ -1,4 +1,3 @@
-
 /**
 *	Node in a state-space search
 *   Must implement goalPredicate, getSuccessors, sameState, node_toString
