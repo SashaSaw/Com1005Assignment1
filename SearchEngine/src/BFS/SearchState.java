@@ -1,3 +1,4 @@
+package BFS;
 /**
 *	State in a state-space search
 *	abstract class
