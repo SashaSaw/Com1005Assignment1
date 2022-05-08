@@ -64,9 +64,11 @@ public class EpuzzleState extends SearchState{
 
 	@Override
 	public String toString() {
-		return "EpuzzleState \n [topLeft=" + topLeft + ", top=" + top + ", topRight=" + topRight + "\n" + ", middleLeft="
-				+ middleLeft + ", middle=" + middle + ", middleRight=" + middleRight + "\n" + ", bottomLeft=" + bottomLeft
-				+ ", bottom=" + bottom + ", bottomRight=" + bottomRight + "]";
+		return "EpuzzleState \n" + topLeft + " | " + top + " | " + topRight + "\n" +
+				"----------\n" + 
+				middleLeft + " | " + middle + " | " + middleRight + "\n" + 
+				"----------\n" + 
+				bottomLeft + " | " + bottom + " | " + bottomRight;
 	}
 
 	@Override
@@ -87,13 +89,14 @@ public class EpuzzleState extends SearchState{
 	ArrayList<SearchState> getSuccessors(Search searcher) {
 		EpuzzleSearch eSearcher = (EpuzzleSearch) searcher;
 		int[][] puzzleConfig = eSearcher.getPuzzleConfig();
+		
 		int xOfEmpty = 0;
 		int yOfEmpty = 0;
 		for(int i=0; i<3;i++) {
 			for(int j=0; j<3;j++) {
 				if(puzzleConfig[i][j]==0) {
-					xOfEmpty = j;
-					yOfEmpty = i;
+					xOfEmpty = i;
+					yOfEmpty = j;
 				}
 			}
 		}
@@ -104,9 +107,10 @@ public class EpuzzleState extends SearchState{
 		
 		int[][] swappedPuzzleConfig = new int[3][3];
 		int elementToBeSwapped;
+		
 		//all have nodes to the right (must be swapped with node to right)
 		if(xOfEmpty==0||xOfEmpty==1) {
-			elementToBeSwapped = puzzleConfig[xOfEmpty+1][yOfEmpty];
+			elementToBeSwapped = puzzleConfig[yOfEmpty][xOfEmpty+1];
 			for(int i = 0;i<3;i++) {
 				for(int j = 0;j<3;j++) {
 					if(j==xOfEmpty+1 && i==yOfEmpty) {
@@ -121,9 +125,10 @@ public class EpuzzleState extends SearchState{
 			
 			eslis.add(new EpuzzleState(swappedPuzzleConfig[0][0],swappedPuzzleConfig[0][1],swappedPuzzleConfig[0][2],swappedPuzzleConfig[1][0],swappedPuzzleConfig[1][1],swappedPuzzleConfig[1][2],swappedPuzzleConfig[2][0],swappedPuzzleConfig[2][1],swappedPuzzleConfig[2][2]));
 		}
+		
 		//all have nodes to the left (must be swapped with node to left)
 		if(xOfEmpty==1||xOfEmpty==2) {
-			elementToBeSwapped = puzzleConfig[xOfEmpty-1][yOfEmpty];
+			elementToBeSwapped = puzzleConfig[yOfEmpty][xOfEmpty-1];
 			for(int i = 0;i<3;i++) {
 				for(int j = 0;j<3;j++) {
 					if(j==xOfEmpty-1 && i==yOfEmpty) {
@@ -138,9 +143,10 @@ public class EpuzzleState extends SearchState{
 			
 			eslis.add(new EpuzzleState(swappedPuzzleConfig[0][0],swappedPuzzleConfig[0][1],swappedPuzzleConfig[0][2],swappedPuzzleConfig[1][0],swappedPuzzleConfig[1][1],swappedPuzzleConfig[1][2],swappedPuzzleConfig[2][0],swappedPuzzleConfig[2][1],swappedPuzzleConfig[2][2]));
 		}
+		
 		//all have nodes below (must be swapped with node below)
 		if(yOfEmpty==0||yOfEmpty==1) {
-			elementToBeSwapped = puzzleConfig[xOfEmpty][yOfEmpty+1];
+			elementToBeSwapped = puzzleConfig[yOfEmpty+1][xOfEmpty];
 			for(int i = 0;i<3;i++) {
 				for(int j = 0;j<3;j++) {
 					if(j==xOfEmpty && i==yOfEmpty+1) {
@@ -155,9 +161,10 @@ public class EpuzzleState extends SearchState{
 			
 			eslis.add(new EpuzzleState(swappedPuzzleConfig[0][0],swappedPuzzleConfig[0][1],swappedPuzzleConfig[0][2],swappedPuzzleConfig[1][0],swappedPuzzleConfig[1][1],swappedPuzzleConfig[1][2],swappedPuzzleConfig[2][0],swappedPuzzleConfig[2][1],swappedPuzzleConfig[2][2]));
 		}
+		
 		//all have nodes above (must be swapped with node above)
 		if(yOfEmpty==1||yOfEmpty==2) {
-			elementToBeSwapped = puzzleConfig[xOfEmpty][yOfEmpty-1];
+			elementToBeSwapped = puzzleConfig[yOfEmpty-1][xOfEmpty];
 			for(int i = 0;i<3;i++) {
 				for(int j = 0;j<3;j++) {
 					if(j==xOfEmpty && i==yOfEmpty-1) {

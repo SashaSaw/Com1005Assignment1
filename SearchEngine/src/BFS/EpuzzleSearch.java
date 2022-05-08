@@ -2,8 +2,8 @@ package BFS;
 
 public class EpuzzleSearch extends Search{
 
-	private int[][] puzzleConfig = new int [3][3]; // configuration of the puzzle in current state
-	private int[][] target = new int [3][3]; // the configuration of the target puzzle state
+	private int[][] puzzleConfig; // configuration of the puzzle in current state
+	private int[][] target; // the configuration of the target puzzle state
 	
 	public EpuzzleSearch (int[][] puzzleC, int[][] tar) {
 		
