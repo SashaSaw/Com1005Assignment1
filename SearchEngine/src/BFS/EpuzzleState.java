@@ -15,17 +15,18 @@ public class EpuzzleState extends SearchState{
 	private int bottomRight;// stores number in the bottom right of the 3x3 grid
 	
 	public EpuzzleState(int tL, int t, int tR, int mL, int m, int mR, int bL, int b, int bR) {
-		topLeft = tL;
-		top = t;
-		topRight = tR;
-		middleLeft = mL;
-		middle = m;
-		middleRight = mR;
-		bottomLeft = bL;
-		bottom = b;
-		bottomRight = bR;
+		topLeft = tL; 		//content of the top Left section of grid
+		top = t;			//content of the top section of grid
+		topRight = tR;		//content of the top Right section of grid
+		middleLeft = mL;	//content of the middle Left section of grid
+		middle = m;			//content of the middle section of grid
+		middleRight = mR;	//content of the middle Right section of grid
+		bottomLeft = bL;	//content of the bottom Left section of grid
+		bottom = b;			//content of the bottom section of grid
+		bottomRight = bR;	//content of the bottom Right section of grid
 	}
 
+	//Accessor methods for differents section of the puzzle grid
 	public int getTopLeft() {
 		return topLeft;
 	}
@@ -62,6 +63,7 @@ public class EpuzzleState extends SearchState{
 		return bottomRight;
 	}
 
+	//to string
 	@Override
 	public String toString() {
 		return "EpuzzleState \n" + topLeft + " | " + top + " | " + topRight + "\n" +
@@ -71,6 +73,7 @@ public class EpuzzleState extends SearchState{
 				bottomLeft + " | " + bottom + " | " + bottomRight;
 	}
 
+	//checks if current node is equal to the target node by comparing each sections of the grids
 	@Override
 	boolean goalPredicate(Search searcher) {
 		EpuzzleSearch esearcher = (EpuzzleSearch) searcher;
@@ -90,6 +93,7 @@ public class EpuzzleState extends SearchState{
 		EpuzzleSearch eSearcher = (EpuzzleSearch) searcher;
 		int[][] puzzleConfig = eSearcher.getPuzzleConfig();
 		
+		//finds the coordinates of the empty square in the puzzle
 		int xOfEmpty = 0;
 		int yOfEmpty = 0;
 		for(int i=0; i<3;i++) {
@@ -101,6 +105,7 @@ public class EpuzzleState extends SearchState{
 			}
 		}
 		
+		//list of Epuzzle states
 		ArrayList<EpuzzleState> eslis = new ArrayList<EpuzzleState>();
 		ArrayList<SearchState> slis = new ArrayList<SearchState>();
 		
@@ -108,7 +113,7 @@ public class EpuzzleState extends SearchState{
 		int[][] swappedPuzzleConfig = new int[3][3];
 		int elementToBeSwapped;
 		
-		//all have nodes to the right (must be swapped with node to right)
+		//swaps the empty square with the square to its right and adds new Epuzzle state
 		if(xOfEmpty==0||xOfEmpty==1) {
 			elementToBeSwapped = puzzleConfig[yOfEmpty][xOfEmpty+1];
 			for(int i = 0;i<3;i++) {
@@ -126,7 +131,7 @@ public class EpuzzleState extends SearchState{
 			eslis.add(new EpuzzleState(swappedPuzzleConfig[0][0],swappedPuzzleConfig[0][1],swappedPuzzleConfig[0][2],swappedPuzzleConfig[1][0],swappedPuzzleConfig[1][1],swappedPuzzleConfig[1][2],swappedPuzzleConfig[2][0],swappedPuzzleConfig[2][1],swappedPuzzleConfig[2][2]));
 		}
 		
-		//all have nodes to the left (must be swapped with node to left)
+		//swaps the empty square with the square to its left and adds new Epuzzle state
 		if(xOfEmpty==1||xOfEmpty==2) {
 			elementToBeSwapped = puzzleConfig[yOfEmpty][xOfEmpty-1];
 			for(int i = 0;i<3;i++) {
@@ -144,7 +149,7 @@ public class EpuzzleState extends SearchState{
 			eslis.add(new EpuzzleState(swappedPuzzleConfig[0][0],swappedPuzzleConfig[0][1],swappedPuzzleConfig[0][2],swappedPuzzleConfig[1][0],swappedPuzzleConfig[1][1],swappedPuzzleConfig[1][2],swappedPuzzleConfig[2][0],swappedPuzzleConfig[2][1],swappedPuzzleConfig[2][2]));
 		}
 		
-		//all have nodes below (must be swapped with node below)
+		//swaps the empty square with the square below it and adds new Epuzzle state
 		if(yOfEmpty==0||yOfEmpty==1) {
 			elementToBeSwapped = puzzleConfig[yOfEmpty+1][xOfEmpty];
 			for(int i = 0;i<3;i++) {
@@ -162,7 +167,7 @@ public class EpuzzleState extends SearchState{
 			eslis.add(new EpuzzleState(swappedPuzzleConfig[0][0],swappedPuzzleConfig[0][1],swappedPuzzleConfig[0][2],swappedPuzzleConfig[1][0],swappedPuzzleConfig[1][1],swappedPuzzleConfig[1][2],swappedPuzzleConfig[2][0],swappedPuzzleConfig[2][1],swappedPuzzleConfig[2][2]));
 		}
 		
-		//all have nodes above (must be swapped with node above)
+		//swaps the empty square with the square above it and adds new Epuzzle state
 		if(yOfEmpty==1||yOfEmpty==2) {
 			elementToBeSwapped = puzzleConfig[yOfEmpty-1][xOfEmpty];
 			for(int i = 0;i<3;i++) {
@@ -180,6 +185,7 @@ public class EpuzzleState extends SearchState{
 			eslis.add(new EpuzzleState(swappedPuzzleConfig[0][0],swappedPuzzleConfig[0][1],swappedPuzzleConfig[0][2],swappedPuzzleConfig[1][0],swappedPuzzleConfig[1][1],swappedPuzzleConfig[1][2],swappedPuzzleConfig[2][0],swappedPuzzleConfig[2][1],swappedPuzzleConfig[2][2]));
 		}
 		
+		//casts the Epuzzle States as search States in slis
 		for (EpuzzleState es : eslis) {
 			slis.add((SearchState) es);
 		}
@@ -187,6 +193,7 @@ public class EpuzzleState extends SearchState{
 		return slis;
 	}
 
+	//Same state - do two Epuzzle nodes have the exact same grid configuration
 	@Override
 	boolean sameState(SearchState n2) {
 		EpuzzleState es2 = (EpuzzleState)n2;
